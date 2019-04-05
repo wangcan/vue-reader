@@ -136,10 +136,11 @@
       },
       getData(id, chapter) {
         this.loading = true
-        axios.get(`${this.common.api}/book?book=${id}&id=${chapter}`).then((data) => {
+        axios.get(`${this.common.api}/culture_chapter/detail.html?book_code=${id}&id=${chapter}`).then((data) => {
           this.loading = false  //获取完毕后隐藏动画
-          this.title = data.data.title
-          this.content = data.data.content.split('-')
+          this.title = data.data.datas.info.relateData.bookData.name
+          //this.contenta = data.data.datas.info.base.content;
+          this.content = data.data.datas.info.base.content.split('\r\n');
         })
         this.$store.state.windowHeight = window.screen.height
       },

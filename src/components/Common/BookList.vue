@@ -3,19 +3,19 @@
     <h2 class="title">{{title}}</h2>
     <ul>
       <li v-for="item in datalist">
-        <router-link :to="{ path: '/bookdetail/' + item.id}" @click.native="bookDetailId(item.id)">
+        <router-link :to="{ path: '/bookdetail/' + item.base.id}" @click.native="bookDetailId(item.base.id)">
           <div class="book-image">
-            <img :src="item.images" alt="">
+            <img :src="item.base.thumbUrl" alt="" :onerror="errorImg">
           </div>
           <div class="book-detail">
-            <h3>{{item.name}}</h3>
+            <h3>{{item.base.name}}</h3>
             <p>{{item.intro}}</p>
             <div class="author">
               <i></i>
-              <span>{{item.author}}</span>
+              <span>{{item.base.author}}</span>
             </div>
             <div class="category-r">
-              <span>{{item.type}}</span><span>{{item.serialize}}</span><span>{{item.wordcount}}万字</span>
+              <span>{{item.base.tag}}</span><span>{{item.base.serialize}}</span><span>{{item.base.wordcount}}万字</span>
             </div>
           </div>
         </router-link>
@@ -28,7 +28,8 @@
   export default {
     data() {
       return {
-        typeArr: []
+        typeArr: [],
+        errorImg: require('../../assets/images/nobook.jpg')
       }
     },
     props: ['datalist', 'title'],

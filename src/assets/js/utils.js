@@ -7,7 +7,7 @@ export default {
       defaultImage(e) {
         e.target.src = 'http://www.zwdu.com/files/article/image/20/20962/20962s.jpg'
       },
-      api: 'http://127.0.0.1/book'
+      api: 'http://restapp.acanstudio.com'
     }
   }
 }

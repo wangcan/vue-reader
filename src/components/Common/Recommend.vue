@@ -4,10 +4,10 @@
     <div class="list">
       <ul class="list-ul">
         <li class="list-li" v-for="(item,index) in booklist">
-          <router-link :to="{ path: '/bookdetail/' + item.id}" @click.native="bookDetailId(item.id)">
-            <img :src="item.images" alt="" @error="loadImage($event)">
-            <p class="book-name">{{item.name}}</p>
-            <p class="book-author">{{item.author}}</p>
+          <router-link :to="{ path: '/bookdetail/' + item.base.id}" @click.native="bookDetailId(item.base.id)">
+            <img :src="item.base.thumbUrl" alt="" :onerror="errorImg">
+            <p class="book-name">{{item.base.name}}</p>
+            <p class="book-author">{{item.base.author}}</p>
           </router-link>
         </li>
       </ul>
@@ -19,7 +19,9 @@
 
   export default {
     data() {
-      return {}
+      return {
+        errorImg: require('../../assets/images/nobook.jpg')
+      }
     },
     props: ['booklist', 'title'],
     methods: {

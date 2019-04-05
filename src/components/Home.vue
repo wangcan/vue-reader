@@ -2,16 +2,13 @@
   <div class="container">
     <nav class="nav-header">
       <header>
-        <a href="/" class="brand">移动书城</a>
-        <a href="/" class="avatar"></a>
+        <a href="#" class="brand">王灿书屋</a>
+        <a href="#" class="avatar"></a>
       </header>
       <div class="swipe">
         <mt-swipe :auto="5000">
           <mt-swipe-item><img src="../assets/images/1.jpg" alt=""></mt-swipe-item>
           <mt-swipe-item><img src="../assets/images/2.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/3.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/4.jpg" alt=""></mt-swipe-item>
-          <mt-swipe-item><img src="../assets/images/5.jpg" alt=""></mt-swipe-item>
         </mt-swipe>
       </div>
     </nav>
@@ -27,12 +24,11 @@
       </router-link>
     </nav>
     <div v-if="!loading">
-      <recommend :booklist="booklist | hot" title="热门小说"></recommend>
-      <recommend :booklist="booklist | top" title="排行榜"></recommend>
-      <recommend :booklist="booklist | free" title="限时免费"></recommend>
-      <book-list :datalist="booklist | newbook" title="新书抢鲜"></book-list>
-      <book-list :datalist="booklist | endbook" title="畅销完本"></book-list>
-      <book-list :datalist="booklist | like" title="猜你喜欢"></book-list>
+      <recommend :booklist="booklist.hit" title="最爱"></recommend>
+      <recommend :booklist="booklist.read" title="最近阅读"></recommend>
+      <book-list :datalist="booklist.markread" title="已读书单"></book-list>
+      <book-list :datalist="booklist.want" title="待读书单"></book-list>
+      <book-list :datalist="booklist.dress" title="装点书单"></book-list>
     </div>
     <loading v-show="loading"></loading>
   </div>
@@ -49,26 +45,11 @@
       return {
         booklist: [],
         type: [
-          {
-            num: 1,
-            word: '玄幻'
-          },
-          {
-            num: 2,
-            word: '修真'
-          },
-          {
-            num: 3,
-            word: '都市'
-          },
-          {
-            num: 4,
-            word: '历史'
-          },
-          {
-            num: 5,
-            word: '游戏'
-          }
+          {num: 1, word: '鲁迅'},
+          {num: 5, word: '太祖'},
+          {num: 2, word: '古典'},
+          {num: 3, word: '哲学'},
+          {num: 4, word: '历史'}
         ],
         loading: false
       }
@@ -79,9 +60,13 @@
     methods: {
       getData() {
         this.loading = true
-        axios.get(`${this.common.api}/booklist`).then(res => {
+        axios.get(`${this.common.api}/culture_book/listinfo.html`).then(res => {
           this.loading = false //获取数据完成后隐藏loading
-          this.booklist = res.data
+          this.booklist.want = res.data.datas;
+          this.booklist.dress = res.data.datas.infos;
+          this.booklist.markread = res.data.datas.infos;
+          this.booklist.hit = res.data.datas.infos;
+          this.booklist.read = res.data.datas.infos;
         })
       }
     },
@@ -178,10 +163,10 @@
       justify-content: space-between;
       align-items: center;
       font-size: 20px;
-      text-indent: -8888px;
+      /*text-indent: -8888px;*/
       .brand {
         width: 100px;
-        background: url(http://qidian.gtimg.com/qdm/img/logo-qdm.0.50.svg) no-repeat left;
+        /*background: url(../assets/images/logo-qdm.0.50.svg) no-repeat left;*/
         background-size: 100%;
       }
       .avatar {

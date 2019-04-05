@@ -5,44 +5,44 @@
       <div class="detail-linear">
         <header class="detail-top">
           <a @click="back"><i class="back"></i>
-            <h2 class="detail-title">{{bookDetail.name}}</h2>
+            <h2 class="detail-title">{{bookDetail.base.name}}</h2>
           </a>
           <router-link to="/" class="home-btn"><i class="iconfont icon-home"></i></router-link>
         </header>
         <div class="detail-con" v-if="!loading">
           <div class="detail-img">
-            <img :src="bookDetail.images" alt="" @error="loadImage($event)">
+            <img :src="bookDetail.base.thumbUrl" alt="" @error="loadImage($event)">
           </div>
           <div class="detail-main">
-            <h3 class="name">{{bookDetail.name}}</h3>
-            <p class="author">作者：{{bookDetail.author}}</p>
-            <p class="type">分类：{{bookDetail.type}}</p>
-            <p class="word-count">{{bookDetail.wordcount}}万字</p>
-            <rate :score="bookDetail.ratings"></rate>
+            <h3 class="name">{{bookDetail.base.name}}</h3>
+            <p class="author">作者：{{bookDetail.base.author}}</p>
+            <p class="type">分类：{{bookDetail.base.tap}}</p>
+            <p class="word-count">{{bookDetail.base.wordcount}}万字</p>
+            <rate :score="bookDetail.base.ratings"></rate>
           </div>
         </div>
         <div class="read-btn" v-if="!loading">
           <div>
             <button @click="openBook">
-              <router-link :to="{path:'/reader/'+ bookDetail.id}">开始阅读</router-link>
+              <router-link :to="{path:'/reader/'+ bookDetail.base.code}">开始阅读</router-link>
             </button>
           </div>
           <div>
             <button @click="openBook">
-              <router-link :to="{path:'/reader/'+ bookDetail.id}">开始阅读</router-link>
+              <router-link :to="{path:'/reader/'+ bookDetail.base.code}">开始阅读</router-link>
             </button>
           </div>
         </div>
       </div>
       <div v-if="!loading">
         <div class="detail-intro">
-          <p :class="{show5: !showmore}" @click="showmore = !showmore">{{bookDetail.intro}}</p>
+          <p :class="{show5: !showmore}" @click="showmore = !showmore">{{bookDetail.base.description}}</p>
         </div>
         <div class="detail-tag">
           <h3 class="tag">类别标签</h3>
           <ul class="tag-btn clearfix">
             <li>
-              {{bookDetail.type}}
+              {{bookDetail.base.tag}}
             </li>
             <li>
               东方玄幻
@@ -86,11 +86,11 @@
     methods: {
       getBookDetail(bookId) {
         this.loading = true
-        axios.get(`${this.common.api}/booklist?id=${bookId}`).then((res) => {
+        axios.get(`${this.common.api}/culture_book/view.html?id=${bookId}`).then((res) => {
           this.loading = false  //获取数据完成后隐藏loading
           this.showmore = false  //获取数据让介绍最多显示5行
-          this.bookDetail = res.data
-          this.likes = res.data.like.split('-')
+          this.bookDetail = res.data.datas.info;
+          this.likes = {};//res.data.like.split('-')
         })
       },
       //打开书籍
